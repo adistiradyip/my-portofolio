@@ -13,7 +13,11 @@ const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=600&fit=crop";
 
 function formatBlogDate(date: string, locale: "en" | "id") {
-  return new Date(date).toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
+  const normalized = date.includes(" ") ? date.replace(" ", "T") : date;
+  const parsed = new Date(normalized);
+  if (Number.isNaN(parsed.getTime())) return date;
+
+  return parsed.toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",

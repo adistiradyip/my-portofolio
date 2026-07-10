@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { BlogPost, Profile } from "@/lib/types";
+import { toIsoDate } from "@/lib/utils";
 
 const DEFAULT_OG_IMAGE =
   "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&h=630&fit=crop";
@@ -62,6 +63,9 @@ export function buildBlogMetadata(post: BlogPost, profile: Profile | null): Meta
     `Read ${post.title} by ${author}.`;
   const image = resolveOgImage(post.image_url, post.title);
 
+  const publishedTime = toIsoDate(post.published_at);
+  const modifiedTime = toIsoDate(post.updated_at) ?? publishedTime;
+
   return {
     title: post.title,
     description,
@@ -75,8 +79,8 @@ export function buildBlogMetadata(post: BlogPost, profile: Profile | null): Meta
       type: "article",
       locale: "en_US",
       alternateLocale: ["id_ID"],
-      publishedTime: post.published_at,
-      modifiedTime: post.updated_at,
+      ...(publishedTime ? { publishedTime } : {}),
+      ...(modifiedTime ? { modifiedTime } : {}),
       authors: [author],
       section: post.category,
       images: [image],

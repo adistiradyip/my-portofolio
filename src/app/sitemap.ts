@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getBlogPosts } from "@/lib/queries";
 import { getSiteUrl } from "@/lib/seo";
+import { toIsoDate } from "@/lib/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
@@ -10,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((post) => !post.coming_soon && post.slug)
     .map((post) => ({
       url: `${base}/blog/${post.slug}`,
-      lastModified: post.updated_at || post.published_at,
+      lastModified: toIsoDate(post.updated_at) ?? toIsoDate(post.published_at) ?? new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
     }));

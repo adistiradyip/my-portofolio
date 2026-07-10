@@ -3,11 +3,14 @@ import { PortfolioProviders } from "@/components/portfolio/portfolio-providers";
 import { BlogArticlePage } from "@/components/portfolio/blog-article-page";
 import { getBlogPostBySlug, getProfile, getPublishedBlogSlugs } from "@/lib/queries";
 import { buildBlogMetadata, getSiteUrl } from "@/lib/seo";
+import { toIsoDate } from "@/lib/utils";
 import type { BlogPost } from "@/lib/types";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
   const slugs = await getPublishedBlogSlugs();
@@ -31,8 +34,8 @@ function buildArticleJsonLd(post: BlogPost, profileName: string) {
     headline: post.title,
     description: post.excerpt || post.content?.slice(0, 160),
     image: post.image_url || undefined,
-    datePublished: post.published_at,
-    dateModified: post.updated_at,
+    datePublished: toIsoDate(post.published_at),
+    dateModified: toIsoDate(post.updated_at) ?? toIsoDate(post.published_at),
     author: {
       "@type": "Person",
       name: post.author || profileName,
