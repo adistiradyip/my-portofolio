@@ -67,13 +67,14 @@ export function AboutSection({
               <h3 className="text-xl font-extrabold text-pf-text">{t.about.skillsTitle}</h3>
 
               {skills.length > 0 && (
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {skills.map((skill, i) => (
-                    <Reveal key={skill.id} delay={0.1 + i * 0.04} direction="scale">
-                      <span className="rounded-full bg-pf-surface px-4 py-2 text-sm font-semibold text-pf-subtle shadow-sm">
-                        {skill.name}
-                      </span>
-                    </Reveal>
+                <div className="mt-6 flex flex-wrap content-start gap-2.5 sm:gap-3">
+                  {skills.map((skill) => (
+                    <span
+                      key={skill.id}
+                      className="inline-flex max-w-full shrink-0 rounded-full bg-pf-surface px-3 py-1.5 text-xs font-semibold text-pf-subtle shadow-sm sm:px-4 sm:py-2 sm:text-sm"
+                    >
+                      {skill.name}
+                    </span>
                   ))}
                 </div>
               )}
@@ -81,8 +82,8 @@ export function AboutSection({
               {experiences.length > 0 && (
                 <div className="mt-8 space-y-4">
                   {experiences.slice(0, 3).map((exp, i) => (
-                    <Reveal key={exp.id} delay={0.12 + i * 0.08} direction="right">
-                    <div className="rounded-xl bg-pf-surface p-4 shadow-sm">
+                    <Reveal key={exp.id} delay={0.12 + i * 0.08} direction="right" className="block w-full">
+                    <div className="w-full rounded-xl bg-pf-surface p-4 shadow-sm">
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                         <div className="min-w-0 flex-1">
                           <p className="font-bold text-pf-text">{exp.role}</p>
