@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio CMS
 
-## Getting Started
+Portfolio website dengan CMS admin panel, dibangun menggunakan **Next.js**, **Tailwind CSS**, **Aceternity UI**, dan **Supabase**.
 
-First, run the development server:
+## Fitur
+
+- **Public Portfolio** — Hero, Projects, Skills, About, Contact
+- **Admin CMS** — Kelola profile, projects, skills, experience, dan pesan contact
+- **Supabase Auth** — Login admin terproteksi
+- **Aceternity UI** — Spotlight, Background Beams, Bento Grid, Floating Navbar, Text Generate Effect
+- **Row Level Security** — Data aman dengan RLS di Supabase
+
+## Tech Stack
+
+- Next.js 16 (App Router)
+- Tailwind CSS v4
+- Aceternity UI + shadcn/ui
+- Supabase (PostgreSQL + Auth)
+- TypeScript
+
+## Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Setup Supabase
+
+1. Buat project baru di [supabase.com](https://supabase.com) (atau restore project yang ada)
+2. Buka **SQL Editor** dan jalankan isi file:
+   `supabase/migrations/20260709000000_portfolio_schema.sql`
+3. Buat user admin di **Authentication > Users > Add user**
+
+### 3. Environment variables
+
+Copy `.env.local.example` ke `.env.local`:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Isi dengan credentials Supabase Anda:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
+### 4. Jalankan development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka:
+- **Portfolio**: http://localhost:3000
+- **Admin CMS**: http://localhost:3000/admin/login
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Struktur Project
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/
+│   ├── page.tsx              # Portfolio public
+│   ├── admin/
+│   │   ├── login/            # Login page
+│   │   └── (dashboard)/      # CMS pages
+│   └── auth/callback/        # Supabase auth callback
+├── components/
+│   ├── portfolio/            # Portfolio sections
+│   ├── admin/                # CMS forms & managers
+│   └── ui/                   # shadcn + Aceternity components
+└── lib/
+    ├── supabase/             # Supabase clients
+    ├── actions.ts            # Server actions
+    ├── queries.ts            # Data fetching
+    └── types.ts              # TypeScript types
+```
 
-## Learn More
+## Admin CMS
 
-To learn more about Next.js, take a look at the following resources:
+Setelah login, Anda bisa mengelola:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Menu | Fungsi |
+|------|--------|
+| Dashboard | Ringkasan statistik |
+| Profile | Nama, bio, social links |
+| Projects | CRUD project (draft/published) |
+| Skills | CRUD skill dengan proficiency |
+| Experience | Riwayat pekerjaan |
+| Messages | Pesan dari contact form |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Menambah Aceternity Component
 
-## Deploy on Vercel
+```bash
+npx shadcn@latest add @aceternity/[component-name]
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contoh:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx shadcn@latest add @aceternity/lamp
+```
+
+## License
+
+MIT
